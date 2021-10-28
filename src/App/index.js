@@ -1,11 +1,7 @@
 // import logo from './logo.svg';
 // import './App.css';
 import React from "react";
-import {TodoCounter} from './TodoCounter'
-import { TodoSearch } from "./TodoSearch";
-import { TodoItem } from "./TodoItem";
-import { TodoList } from "./TodoList";
-import { CreateTodoButton } from "./CreateTodoButton";
+import {AppUI} from './AppUI';
 
 const defaultTodos = [
   {text: "JS Practice", completed: true},
@@ -36,33 +32,46 @@ function App(props) {
     
   }
 
+  const completeTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    const newTodos = [...todos];
+    // Dos formas de cambiar el estado de nuestros toDos
+    newTodos[todoIndex].completed = true;
+    setTodos(newTodos);
+    // todos[todoIndex] = {
+    //   text: todos[todoIndex].text,
+    //   completed: true,
+
+    // };
+  }
+
+  const deleteTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    const newTodos = [...todos];
+    
+    newTodos.splice(todoIndex, 1);
+    setTodos(newTodos);
+    // todos[todoIndex] = {
+    //   text: todos[todoIndex].text,
+    //   completed: true,
+
+    // };
+  }
 
   return (
-    <React.Fragment>
-      <TodoCounter 
-        completed={completedTodos}
-        total={totalTodos}
-      />
-      
-      <TodoSearch
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-      
-      <TodoList>
-        {/* //Podemos retornar de la manera tradicion () =>{retunr (componente)} para renderizar un componente o hacerlo de forma automatica con parentesis () => (componente) */ }
-        {searchedTodos.map(todo => ( 
-          <TodoItem 
-            key={todo.text} 
-            text={todo.text}
-            completed={todo.completed}
-            />
-        ))}
+    <AppUI 
+      completed={completedTodos}
+      total={totalTodos}
 
-      </TodoList>
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
 
-      <CreateTodoButton /> 
-    </React.Fragment>
+      searchedTodos={searchedTodos}
+
+      completeTodo={completeTodo}
+      deleteTodo={deleteTodo}
+
+    />
   );
 }
 

@@ -2,18 +2,12 @@ import React from "react";
 import './TodoItem.css';
 
 function TodoItem(props) {
-  const onComplete = () => {
-    alert(`Ya completaste el toDo ${props.text}`)
-  }
-
-  const onDelete = () => {
-    alert(`Borraste el toDo ${props.text}`)
-  }
+  
 
   return (
     <li className="TodoItem">
       <span className={`Icon Icon-check ${props.completed && 'Icon-check--active'}`}
-        onClick={onComplete}
+        onClick={props.onComplete}
       
       >
           <svg className="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
@@ -23,7 +17,7 @@ function TodoItem(props) {
     </span>
       <p className={`TodoItem-p ${props.completed && 'TodoItem-p--complete'}`}>{props.text}</p>
         <span className="icon Icon-delete"
-          onClick={onDelete}
+          onClick={props.onDelete}
         > 
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
