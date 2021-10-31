@@ -3,16 +3,45 @@
 import React from "react";
 import {AppUI} from './AppUI';
 
-const defaultTodos = [
-  {text: "JS Practice", completed: true},
-  {text: "Drink Water", completed: false},
-  {text: "Study react", completed: true},
-  {text: "Test", completed: false},
-];
+// const defaultTodos = [
+//   {text: "JS Practice", completed: true},
+//   {text: "Drink Water", completed: false},
+//   {text: "Study react", completed: true},
+//   {text: "Test", completed: false},
+// ];
 
-function App(props) {
+const useLocalStorage = (itemName, initialValue) => {
 
-  const [todos, setTodos] = React.useState(defaultTodos);
+  
+
+  const localStorageItem = localStorage.getItem(itemName);
+  let parsedItem;
+
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue;
+  } else {
+    parsedItem = JSON.parse(localStorageItem);
+  }
+
+  const [item, setItem] = React.useState(parsedItem);
+
+  const saveItem = (newItem) => {
+    const stringifiedItem = JSON.stringify(newItem);
+    localStorage.setItem(itemName, stringifiedItem);
+    setItem(newItem);
+  }
+
+  return [
+    item, 
+    saveItem
+  ];
+}
+
+function App() {
+
+  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
+  
   const [searchValue, setSearchValue] = React.useState('');
   //El doble signo de ! niega, un segundo signo, niega la validacion y regresa un true
   const completedTodos = todos.filter(todo => !!todo.completed).length;
@@ -32,17 +61,14 @@ function App(props) {
     
   }
 
+  
+
   const completeTodo = (text) => {
     const todoIndex = todos.findIndex(todo => todo.text === text);
     const newTodos = [...todos];
-    // Dos formas de cambiar el estado de nuestros toDos
+    
     newTodos[todoIndex].completed = true;
-    setTodos(newTodos);
-    // todos[todoIndex] = {
-    //   text: todos[todoIndex].text,
-    //   completed: true,
-
-    // };
+    saveTodos(newTodos);
   }
 
   const deleteTodo = (text) => {
@@ -50,12 +76,7 @@ function App(props) {
     const newTodos = [...todos];
     
     newTodos.splice(todoIndex, 1);
-    setTodos(newTodos);
-    // todos[todoIndex] = {
-    //   text: todos[todoIndex].text,
-    //   completed: true,
-
-    // };
+    saveTodos(newTodos);
   }
 
   return (
