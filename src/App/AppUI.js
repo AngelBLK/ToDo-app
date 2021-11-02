@@ -6,7 +6,11 @@ import { TodoList } from "../TodoList";
 import { CreateTodoButton } from "../CreateTodoButton";
 import {TodoContext} from '../todoContext/index';
 import {Modal} from '../Modal/index';
-import {TodoForm} from '../TodoForm/TodoForm'
+import {TodoForm} from '../TodoForm/TodoForm';
+
+import {loadingTodos} from '../loadingStatus/loadingTodos';
+import {errorTodos} from '../loadingStatus/errorTodos';
+import {emptyTodos} from '../loadingStatus/emptyTodos';
 
 
 function AppUI (){
@@ -27,9 +31,9 @@ function AppUI (){
       <TodoSearch/>
       
       <TodoList>
-        {error && <p>Panic!</p>}
-        {loading && <p>Loading, wait a minute</p>}
-        {!loading && !searchedTodos.length && <p>Create your First ToDo</p>}
+        {error && errorTodos()}
+        {loading && loadingTodos()}
+        {!loading && !searchedTodos.length && emptyTodos()}
         {/* //Podemos retornar de la manera tradicion () =>{retunr (componente)} para renderizar un componente o hacerlo de forma automatica con parentesis () => (componente) */ }
         {searchedTodos.map(todo => ( 
           <TodoItem 

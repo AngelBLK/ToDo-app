@@ -1,5 +1,7 @@
 import React from 'react';
 import { TodoContext } from '../todoContext';
+import './TodoForm.css';
+
 
 const TodoForm = () => {
 
@@ -29,13 +31,15 @@ const TodoForm = () => {
         placeholder="Type here your toDo"
       />
 
-      <div>
+      <div className="TodoForm-buttonContainer">
         <button 
-        type="button"
+          type="button"
+          className="TodoForm-button TodoForm-button--cancel"
           onClick={onCancel}
         >Cancel</button>
         <button 
-        type="submit"
+          type="submit"
+          className="TodoForm-button TodoForm-button--add"
         >Add</button>
       </div>
     </form>
